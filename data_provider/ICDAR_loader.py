@@ -45,10 +45,14 @@ class ICDARLoader(DataLoader):
                         line.pop(8)
 
                     # Deal with labels containing ","
-                    if len(line) > 9:
+                    if year != '13' and len(line) > 9:
                         label = line[8]
                         for i in range(len(line) - 9):
                             label = label + "," + line[i+9]
+                    elif year == '13' and len(line) > 5:
+                        label = line[4]
+                        for i in range(len(line) - 5):
+                            label = label + "," + line[i+5]
                     else:
                         label = line[-1]
 
@@ -82,6 +86,7 @@ class ICDARLoader(DataLoader):
                         labels.append([-1])
                     else:
                         if year == '13':
+                            label = label.strip()
                             label = label[1:-1]
                         labels.append(label_to_array(label))
                         text_tags.append(False)
